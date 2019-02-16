@@ -32,6 +32,7 @@
 #include <stdbool.h>
 
 #include <SDL.h>
+#include <SDL_image.h>
 
 // Define MAX and MIN macros
 #define MAX(X, Y) (((X) > (Y)) ? (X) : (Y))
@@ -47,11 +48,19 @@ int main(int argc, char* argv[])
     (void) argc;
     (void) argv;
 
-    // Initialize SDL
+    // Initialize SDL2
     if(SDL_Init(SDL_INIT_VIDEO) < 0)
     {
-        printf("SDL could not be initialized!\n"
-               "SDL_Error: %s\n", SDL_GetError());
+        printf("SDL2 could not be initialized!\n"
+               "SDL2 Error: %s\n", SDL_GetError());
+        return 0;
+    }
+
+    // Initialize SDL2_image
+    int flags = IMG_INIT_PNG; // Can be: IMG_INIT_JPG | IMG_INIT_PNG
+    if((IMG_Init(flags) & flags) != flags) {
+        printf("SDL2_image could not be initialized with PNG support!\n"
+               "SDL2_image Error: %s\n", IMG_GetError());
         return 0;
     }
 
@@ -66,8 +75,8 @@ int main(int argc, char* argv[])
 
     // Create window
     SDL_Window *window = SDL_CreateWindow("SDL2_image sample",
-                                          SDL_WINDOWPOS_UNDEFINED,
-                                          SDL_WINDOWPOS_UNDEFINED,
+                                          SDL_WINDOWPOS_CENTERED,
+                                          SDL_WINDOWPOS_CENTERED,
                                           SCREEN_WIDTH, SCREEN_HEIGHT,
                                           SDL_WINDOW_SHOWN);
     if(!window)
@@ -138,6 +147,9 @@ int main(int argc, char* argv[])
         // Destroy window
         SDL_DestroyWindow(window);
     }
+
+    // Quit SDL_image
+    IMG_Quit();
 
     // Quit SDL
     SDL_Quit();
