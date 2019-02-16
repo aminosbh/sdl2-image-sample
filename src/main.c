@@ -42,6 +42,9 @@
 #define SCREEN_WIDTH    800
 #define SCREEN_HEIGHT   600
 
+// Define Tunisia flag image path
+#define TN_FLAG_IMAGE_PATH "assets/tn.png"
+
 int main(int argc, char* argv[])
 {
     // Unused argc, argv
@@ -95,16 +98,48 @@ int main(int argc, char* argv[])
         }
         else
         {
+            // Load image from file
+            SDL_Texture *flag = IMG_LoadTexture(renderer, TN_FLAG_IMAGE_PATH);
+            if(!flag)
+            {
+                printf("Unable to load image '%s'!\n"
+                       "SDL_image Error: %s", TN_FLAG_IMAGE_PATH, IMG_GetError());
+                return false;
+            }
+
+            // Get dimensions
+            int w, h;
+            SDL_QueryTexture(flag, NULL, NULL, &w, &h);
+
+            // Flag dimensions/position
+            SDL_Rect flagRect;
+
+            // Scale the flag dimensions to fit the screen
+            if(w > h) {
+                flagRect.w = SCREEN_WIDTH * 0.6;
+                flagRect.h = h * flagRect.w / w;
+            } else {
+                flagRect.h = SCREEN_HEIGHT * 0.6;
+                flagRect.w = w * flagRect.h / h;
+            }
+
+            // Flag position: In the middle of the screen
+            flagRect.x = SCREEN_WIDTH / 2 - flagRect.w / 2;
+            flagRect.y = SCREEN_HEIGHT / 2 - flagRect.h / 2;
+
+            // Set the border size
+            const int flagBorderSize = 5;
+
             // Declare rect of square
             SDL_Rect squareRect;
 
-            // Square dimensions: Half of the min(SCREEN_WIDTH, SCREEN_HEIGHT)
-            squareRect.w = MIN(SCREEN_WIDTH, SCREEN_HEIGHT) / 2;
-            squareRect.h = MIN(SCREEN_WIDTH, SCREEN_HEIGHT) / 2;
+            // Square dimensions
+            squareRect.w = flagRect.w + flagBorderSize * 2;
+            squareRect.h = flagRect.h + flagBorderSize * 2;
 
-            // Square position: In the middle of the screen
-            squareRect.x = SCREEN_WIDTH / 2 - squareRect.w / 2;
-            squareRect.y = SCREEN_HEIGHT / 2 - squareRect.h / 2;
+            // Square position:
+            squareRect.x = flagRect.x - flagBorderSize;
+            squareRect.y = flagRect.y - flagBorderSize;
 
 
             // Event loop exit flag
@@ -130,11 +165,14 @@ int main(int argc, char* argv[])
                 // Clear screen
                 SDL_RenderClear(renderer);
 
-                // Set renderer color red to draw the square
-                SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+                // Set renderer color black to draw the square
+                SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
 
                 // Draw filled square
                 SDL_RenderFillRect(renderer, &squareRect);
+
+                // Draw the tunisian flag
+                SDL_RenderCopy(renderer, flag, NULL, &flagRect);
 
                 // Update screen
                 SDL_RenderPresent(renderer);
