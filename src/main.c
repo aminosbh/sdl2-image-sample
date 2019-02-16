@@ -65,7 +65,7 @@ int main(int argc, char* argv[])
 #endif
 
     // Create window
-    SDL_Window *window = SDL_CreateWindow("Basic C SDL project",
+    SDL_Window *window = SDL_CreateWindow("SDL2_image sample",
                                           SDL_WINDOWPOS_UNDEFINED,
                                           SDL_WINDOWPOS_UNDEFINED,
                                           SCREEN_WIDTH, SCREEN_HEIGHT,

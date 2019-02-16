@@ -1,6 +1,7 @@
-# Basic C SDL2 project
+# SDL2_image sample
 
-This project is a basic C [SDL2][SDL] project that uses [CMake][] as a build system.
+This project is a basic sample written in C that demonstrates the usage of the
+[SDL2][SDL] and [SDL2_image][] libraries. It uses [CMake][] as a build system.
 
 
 It could be used as a base for any SDL2 project. Just fork it, clone it and
@@ -38,8 +39,8 @@ sudo apt install libsdl2-image-dev libsdl2-ttf-dev libsdl2-net-dev libsdl2-mixer
 
 ```sh
 # Clone this repo
-git clone https://gitlab.com/aminosbh/basic-c-sdl-project.git
-cd basic-c-sdl-project
+git clone https://gitlab.com/aminosbh/sdl2-image-sample.git
+cd sdl2-image-sample
 
 # Create a build folder
 mkdir build
@@ -50,7 +51,7 @@ cmake ..
 make
 
 # Run
-./basic-c-sdl-project
+./sdl2-image-sample
 ```
 
 ***Note:*** To use SDL2_image, SDL2_ttf, SDL2_net, SDL2_mixer or SDL2_gfx, you
